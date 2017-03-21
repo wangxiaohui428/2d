@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .clock{
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(#fff,#ccc);
+            border:1px solid #282828;
+            position: fixed;
+            top:0;left:0;right:0;bottom: 0;
+            margin:auto;
+            box-shadow: 0 0 5px #000;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="clock">
+    </div>
+</body>
+<script>
+    window.onload=function () {
+        var clock=document.querySelector(".clock");
+        mark();
+        var times=new Date();
+        var hour=times.getHours();
+        var min=times.getMinutes();
+        var ss=times.getSeconds();
+        var h=createPointer(10,70,"#000",hour*30+min*6/12);
+        var m=createPointer(8,100,"#000",min*6);
+        var s=createPointer(6,150,"#000",ss*6);
+        setInterval(function () {
+            var times=new Date();
+            var hour=times.getHours();
+            var min=times.getMinutes();
+            var ss=times.getSeconds();
+            h.style.transform="rotate("+(hour*30+min*6/12)+"deg)";
+            m.style.transform="rotate("+min*6+"deg)";
+            s.style.transform="rotate("+ss*6+"deg)";
+        })
+        function mark() {
+            for(var i=0;i<60;i++){
+                var widths,heights,a;
+                if(i%5==0){
+                    widths=6;
+                    heights=13;
+                    a=i;
+                }else{
+                    widths=4;
+                    heights=8;
+                }
+                var box=document.createElement("div");
+                box.style.cssText="width:"+widths+"px;height:"+heights+"px;background:black;position:absolute;top:0;left:"+(400-widths)/2+"px";
+                box.style.transformOrigin="center 200px";
+                box.style.transform="rotate("+i*6+"deg)";
+                clock.appendChild(box);
+            }
+        }
+        /**
+         * 时针  分针  秒针
+         **/
+        function createPointer(w,h,c,a) {
+            var div=document.createElement("div");
+            var tops=400/2-h;
+            var lefts=(400-w)/2;
+            div.style.cssText="width:"+w+"px;height:"+h+"px;background:"+c+";position:absolute;top:"+tops+"px;left:"+lefts+"px";
+            div.style.transformOrigin="center bottom";
+            div.style.transform="rotate("+a+"deg)";
+            clock.appendChild(div);
+            return div;
+        }
+
+
+        /*
+        * 1、相对于自己的位置去变换
+        * 2、他的变换不会影响到其他元素
+        * */
+    }
+</script>
+</html>

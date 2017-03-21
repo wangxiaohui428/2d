@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+</head>
+<style>
+    html,body{
+        margin:0;
+        padding:0;
+        background:#000;
+        height:100%;
+        width:100%;
+        overflow:hidden;
+    }
+    div.xue{
+        height:3px;
+        width:2px;
+        background:#fff;
+        position:absolute;
+        top:-10px;
+    }
+</style>
+<body>
+
+</body>
+<script>
+    var start=0;
+    var step=1;
+    setInterval(function(){
+        start=start+step;
+        document.body.style.width="100%";
+        document.body.style.transform="rotate("+Math.sin(Math.PI/180*start)*30+"deg)";
+    },70);
+
+    let cw=document.documentElement.clientWidth;
+    let ch=document.documentElement.clientHeight;
+    var arr=[];
+    for(var i=0;i<100;i++){
+        var div=document.createElement("div");
+        div.style.left=20+(cw-40)*Math.random()+"px";
+        div.style.transition="all "+(4*Math.random()+2)+"s linear "+6*Math.random()+"s";
+        div.className="xue";
+        arr.push(div);
+        document.body.appendChild(div);
+    }
+
+    setTimeout(function(){
+        for(var i=0;i<arr.length;i++){
+            arr[i].style.transform="translate(0,"+(ch)+"px)";
+            arr[i].addEventListener("webkitTransitionEnd",function(){
+                this.style.transition="none";
+                this.style.transform="translate(0,0)";
+                var that=this;
+                var t=setTimeout(function(){
+                    that.style.transform="translate(0,"+(ch)+"px)";
+                    that.style.transition="all "+(4*Math.random()+2)+"s linear "+3*Math.random()+"s";
+
+                    clearTimeout(t);
+                },0)
+            })
+        }
+    },0)
+</script>
+</html>
